@@ -16,9 +16,7 @@ public class CoffeeMachine {
     private static int cups = 9;
 
     private static void printState() {
-
         System.out.println("The coffee machine has:");
-
         System.out.println(waterSupply + " ml of water");
         System.out.println(milkSupply + " ml of milk");
         System.out.println(beansSupply + " g of coffee beans");
@@ -26,7 +24,66 @@ public class CoffeeMachine {
         System.out.println("$" + earnings + " of money");
     }
 
+    private static void buy() {
+        System.out.println("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino: ");
+        int choice = scanner.nextInt();
+
+        switch (choice) {
+            case 1: {
+                waterSupply -= 250;
+                beansSupply -= 16;
+                cups -= 1;
+                earnings += 4;
+                break;
+            }
+            case 2: {
+                waterSupply -= 350;
+                milkSupply -= 75;
+                beansSupply -= 20;
+                cups -= 1;
+                earnings += 7;
+                break;
+            }
+            case 3: {
+                waterSupply -= 200;
+                milkSupply -= 100;
+                beansSupply -= 12;
+                cups -= 1;
+                earnings += 6;
+                break;
+            }
+            default: {
+                System.out.println("Select a valid option");
+            }
+        }
+    }
+
+    private static void fill() {
+        System.out.println("Write how many ml of water you want to add: ");
+        int water = scanner.nextInt();
+
+        System.out.println("Write how many ml of milk you want to add: ");
+        int milk = scanner.nextInt();
+
+        System.out.println("Write how many grams of coffee beans you want to add: ");
+        int beans = scanner.nextInt();
+
+        System.out.println("Write how many disposable cups of coffee you want to add: ");
+        int newCups = scanner.nextInt();
+
+        waterSupply += water;
+        milkSupply += milk;
+        beansSupply += beans;
+        cups += newCups;
+    }
+
+    private static void take() {
+        System.out.println("I gave you $" + earnings);
+        earnings = 0;
+    }
+
     public static void main(String... args) {
+        printState();
 
 //        int availableWater;
 //        int availableMilk;
@@ -74,8 +131,26 @@ public class CoffeeMachine {
 //            System.out.println("Yes, I can make that amount of coffee (and even " + (counter - cupsNeeded) + " more than that)");
 //        }
 
+        System.out.println("Write action (buy, fill, take): ");
+        String choice = scanner.nextLine();
 
-
+        switch (choice) {
+            case "buy": {
+                buy();
+                break;
+            }
+            case "fill": {
+                fill();
+                break;
+            }
+            case "take": {
+                take();
+                break;
+            }
+            default: {
+                System.out.println("Select a valid option");
+            }
+        }
+        printState();
     }
-
 }
