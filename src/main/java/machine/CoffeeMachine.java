@@ -3,12 +3,7 @@ package machine;
 import java.util.Scanner;
 
 public class CoffeeMachine {
-
     private static final Scanner scanner = new Scanner(System.in);
-    private static final int WATER = 200;
-    private static final int MILK = 50;
-    private static final int BEANS = 15;
-
     private static int waterSupply = 400;
     private static int milkSupply = 540;
     private static int beansSupply = 120;
@@ -25,36 +20,88 @@ public class CoffeeMachine {
     }
 
     private static void buy() {
-        System.out.println("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino: ");
-        int choice = scanner.nextInt();
+        System.out.println("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino, back - to main menu: ");
+        int choice;
 
-        switch (choice) {
-            case 1: {
-                waterSupply -= 250;
-                beansSupply -= 16;
-                cups -= 1;
-                earnings += 4;
-                break;
+        try {
+            choice = scanner.nextInt();
+            switch (choice) {
+                case 1: {
+                    if(waterSupply >= 250) {
+                        if(beansSupply >= 16) {
+                            if(cups >= 1) {
+                                System.out.println("I have enough resources, making you a coffee!");
+                                waterSupply -= 250;
+                                beansSupply -= 16;
+                                cups -= 1;
+                                earnings += 4;
+                            } else {
+                                System.out.println("Sorry, not enough cups!");
+                            }
+                        } else {
+                            System.out.println("Sorry, not enough coffee beans!");
+                        }
+                    } else {
+                        System.out.println("Sorry, not enough water!");
+                    }
+                    break;
+                }
+                case 2: {
+                    if(waterSupply >= 350) {
+                        if(beansSupply >= 20) {
+                            if(milkSupply >= 75) {
+                                if(cups >= 1) {
+                                    System.out.println("I have enough resources, making you a coffee!");
+                                    waterSupply -= 350;
+                                    milkSupply -= 75;
+                                    beansSupply -= 20;
+                                    cups -= 1;
+                                    earnings += 7;
+                                } else {
+                                    System.out.println("Sorry, not enough cups!");
+                                }
+                            } else {
+                                System.out.println("Sorry, not enough milk!");
+                            }
+                        } else {
+                            System.out.println("Sorry, not enough coffee beans!");
+                        }
+                    } else {
+                        System.out.println("Sorry, not enough water!");
+                    }
+                    break;
+                }
+                case 3: {
+                    if(waterSupply >= 200) {
+                        if(beansSupply >= 12) {
+                            if(milkSupply >= 100) {
+                                if(cups >= 1) {
+                                    System.out.println("I have enough resources, making you a coffee!");
+                                    waterSupply -= 200;
+                                    milkSupply -= 100;
+                                    beansSupply -= 12;
+                                    cups -= 1;
+                                    earnings += 6;
+                                } else {
+                                    System.out.println("Sorry, not enough cups!");
+                                }
+                            } else {
+                                System.out.println("Sorry, not enough milk!");
+                            }
+                        } else {
+                            System.out.println("Sorry, not enough coffee beans!");
+                        }
+                    } else {
+                        System.out.println("Sorry, not enough water!");
+                    }
+                    break;
+                }
+                default: {
+                    System.out.println("Select a valid option");
+                }
             }
-            case 2: {
-                waterSupply -= 350;
-                milkSupply -= 75;
-                beansSupply -= 20;
-                cups -= 1;
-                earnings += 7;
-                break;
-            }
-            case 3: {
-                waterSupply -= 200;
-                milkSupply -= 100;
-                beansSupply -= 12;
-                cups -= 1;
-                earnings += 6;
-                break;
-            }
-            default: {
-                System.out.println("Select a valid option");
-            }
+        } catch (Exception e) {
+            return;
         }
     }
 
@@ -83,7 +130,6 @@ public class CoffeeMachine {
     }
 
     public static void main(String... args) {
-        printState();
 
 //        int availableWater;
 //        int availableMilk;
@@ -130,27 +176,60 @@ public class CoffeeMachine {
 //        } else {
 //            System.out.println("Yes, I can make that amount of coffee (and even " + (counter - cupsNeeded) + " more than that)");
 //        }
+//
+//        System.out.println("Write action (buy, fill, take): ");
+//        String choice = scanner.nextLine();
+//
+//        switch (choice) {
+//            case "buy": {
+//                buy();
+//                break;
+//            }
+//            case "fill": {
+//                fill();
+//                break;
+//            }
+//            case "take": {
+//                take();
+//                break;
+//            }
+//            default: {
+//                System.out.println("Select a valid option");
+//            }
+//        }
+//        printState();
 
-        System.out.println("Write action (buy, fill, take): ");
-        String choice = scanner.nextLine();
+        boolean exit = false;
 
-        switch (choice) {
-            case "buy": {
-                buy();
-                break;
-            }
-            case "fill": {
-                fill();
-                break;
-            }
-            case "take": {
-                take();
-                break;
-            }
-            default: {
-                System.out.println("Select a valid option");
+        while(!exit) {
+            System.out.println("Write action (buy, fill, take, remaining, exit): ");
+            String choice = scanner.nextLine();
+
+            switch (choice) {
+                case "buy": {
+                    buy();
+                    break;
+                }
+                case "fill": {
+                    fill();
+                    break;
+                }
+                case "take": {
+                    take();
+                    break;
+                }
+                case "remaining": {
+                    printState();
+                    break;
+                }
+                case "exit": {
+                    exit = true;
+                    break;
+                }
+                default: {
+                    System.out.println("Choose a valid option");
+                }
             }
         }
-        printState();
     }
 }
